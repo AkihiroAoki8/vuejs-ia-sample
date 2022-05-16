@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3.2.31"></script>
+</head>
+<body>
+  <div id="app">
+    この中が仮想DOM<br>
+    この中にVueJsのコードを書く<br>
+    {{ message }}
+    <br>
+    <div v-text="vTextTest"></div>
+
+    <div v-html="vHtmlTest"></div>
+
+    <div v-if="isDisplayed">
+      trueだったら表示
+    </div>
+    <div v-else>
+      falseだったら表示
+    </div>
+
+    <div v-show="isShowed">
+      trueだったら表示
+    </div>
+
+    <input v-model="vModelTest">
+    {{ vModelTest }}
+    <br>
+
+    <!-- v-for は 単数形 in 複数形 -->
+    <ul>
+      <li v-for="member in members">{{ member }}</li>
+    </ul>
+
+    <!-- v-forのオブジェクト版 (value)  -->
+    <ul>
+      <li v-for="value in books">{{ value }}</li>
+    </ul>
+
+    <!-- v-forのオブジェクト版 (key, value)  -->
+    <ul>
+      <li v-for="(value, key) in books">
+        {{ key }} : {{ value }}
+      </li>
+    </ul>
+
+    <!-- v-forのオブジェクト版 (key, value, index)  -->
+    <ul>
+      <li v-for="(value, key, index) in books">
+        {{ index }} : {{ key }} : {{ value }}
+      </li>
+    </ul>
+
+  </div>
+  <script>
+    // JSの変数の指定
+    // 昔 var
+    // 2015年頃に JSがパワーアップ 
+    // ECMASCript2015 とか ES6 とか言われる
+    // 変数の指定の方法が let, const と増えた
+
+    // php 
+    // Class->関数
+    // class::関数
+
+    // JS
+    // Object.関数
+
+    const HelloVue3 = {
+      // {} は オブジェクト
+      // PHPの場合はクラスの中に 変数(プロパティ)、関数(メソッド)
+      // JSも同じ
+
+      // Vue.jsの初期値設定
+      data(){
+        return {
+          // key: valueみたいに書く
+          message: 'Hello Vue3 good night',
+          vTextTest: 'v-textサンプルです',
+          vHtmlTest: '<p>v-htmlサンプルです</p>',
+          // v-ifのテスト
+          isDisplayed: true,
+          
+          // v-show
+          isShowed: true,
+
+          // v-model
+          vModelTest: '初期値です',
+
+          // v-for （配列)
+          members: [ '本田', '香川', '長友' ],
+
+          // v-for (オブジェクト(PHPの連想配列みたいな))
+          books: {
+            title: 'タイトル',
+            author: '著者名',
+            url: 'https://google.com'
+          }
+
+        }
+      }
+    }
+
+    // Vue3 の起動
+    // createApp Vueのインスタンス生成
+    // mount 仮想DOMの場所
+    Vue.createApp(HelloVue3).mount('#app')
+
+    // var test = document.getElementById('abc')
+    
+  </script>
+</body>
+</html>

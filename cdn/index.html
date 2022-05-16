@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3.2.31"></script>
+  <style>
+    .active {
+      color: red;
+
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    この中が仮想DOM<br>
+    この中にVueJsのコードを書く<br>
+
+    <input type="text" v-bind:value="vBindText">
+    
+    <!-- 省略形 -->
+    <input type="text" :value="vBindText">
+    {{ vBindText }}
+    
+    <div :class="{ active: isActive }">v-bindのクラスのテストです</div>
+
+    <!-- v-model フォーム書いたら dataも変わる -->
+    <!-- v-bind と v-on を組み合わせて実現してる -->
+
+    <!-- v-on イベント clickしたら- -->
+    <button v-on:click="showConsoleLog">ボタン</button>
+    <button @click="showConsoleLog">ボタン</button>
+
+    <!-- イベント関連で
+    .stop　と .prevent というオプションもあります
+   -->
+
+   <input type="text" @input="inputText">
+
+   <!-- 入力した値を取得するには methods側で引数でeで取得できる -->
+   <input type="text" @input="inputTextArgument">
+   <br>
+   <!-- Computed(算出プロパティ) 
+  リアルタイムで計算なり処理ができる -->
+  合計金額: {{ totalPrice }}
+  料金:<input v-model="price" type="number"><br>
+  数量:<input v-model="quantity" type="number"><br>
+
+  </div>
+  <script>
+
+    const HelloVue3 = {
+      data(){
+        return {
+          // getとsetがくっついている
+          vBindText: 'v-bindのテストです',
+          isActive: true,
+          price: 1000,
+          quantity: 1
+          }
+        },
+      methods: {
+        showConsoleLog(e){
+          // phpの時は var_dump(変数名)
+          // Laravel は dd(変数名)
+          // JSでは console.log(変数名なり、表示したい内容)
+          // Chromeの開発ツールのConsoleタブに表示されます
+          console.log('クリックしたよ')
+          console.log(e)
+        },
+        inputText(){
+          console.log('インプットされたよ')
+        },
+
+        // 引数にeとつけるとイベントオブジェクト取得できる
+        inputTextArgument(e){
+          // e.target.valueで値表示
+          console.log(e.target.value)
+        }
+      },
+      computed: {
+        //書き方はメソッド
+        totalPrice(){
+          return this.price * this.quantity
+        }
+      },
+      // APIで外のサーバーから情報とってくるときとか
+      // 先にアクセスしといて表示したいので、
+      // created()のタイミングで実行
+      created(){
+        this.inputText(),
+        console.log('createdです')
+      },
+
+      // DOMで使ってる要素を使うとき
+      mounted(){
+        console.log('mountedです。DOMの後です')
+
+      }
+
+        
+      }
+
+    // Vue3 の起動
+    // createApp Vueのインスタンス生成
+    // mount 仮想DOMの場所
+    Vue.createApp(HelloVue3).mount('#app')
+
+   
+  </script>
+</body>
+</html>
