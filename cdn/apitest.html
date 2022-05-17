@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3.2.31"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- 仮想DOM -->
+    {{ message }}
+
+    <button @click="getDogImage">画像を取得</button>
+    <img width="300" :src="dogImage">
+
+    <!-- Dog API -->
+    <!-- API 外部サーバー、サービス
+    いろんな情報を取得できる
+    楽天、Amazon, Twiter, Facebook, Insta, 
+    Qiita,　Github、はてぶ、食べログ, DogAPI etc.. -->
+
+    <!-- 外部に取りにって、返答(response)がくるまで -->
+    <!-- 時間がかかる (1秒とか2秒とか) -->
+
+    <!-- Ajax (アジャクス、エージャックス) 非同期 通信 
+      2015年 ES6 JavaScriptがパワーアップ ～
+      非同期処理 Promise -> async/await
+      非同期通信 古いXHR, fetch 
+      jQueryでやる場合もある (axiosというライブラリ)
+    -->
+
+  </div>
+  
+  <script>
+    const url = 'https://dog.ceo/api/breeds/image/random'
+    const options = {
+      method: 'get'  
+    }
+
+    const HelloVue3 = {
+      data(){
+        return {
+          // dataのなかはリアクティブ(get/setがくっついてる)
+          dogImage: '',
+          message: 'メッセージ'
+        }
+      },
+      methods: {
+        // Ajax通信の場合は
+        // requestして、返答があってから先に進まないと
+        // データが表示できない
+
+        // 関数の前にasyncとつけると非同期関数
+       async getDogImage(){
+          // async関数の中に await 関数 とつけると、
+          // awaitを待ってから実行する
+          // 返り値はpromiseになる
+          // promiseになると.thenでつなげられる
+          const response = await fetch(url, options).then( response => response.json())
+          
+          // console.log(response.message) 
+          this.dogImage = response.message
+        }
+      }
+    }
+
+    Vue.createApp(HelloVue3).mount('#app')
+
+  </script>
+</body>
+</html>
